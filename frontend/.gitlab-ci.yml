@@ -34,8 +34,9 @@ sonarqube-sast:
     - >
       sonar-scanner \
       -Dsonar.projectKey=${SONAR_FRONTEND_PROJECT_KEY} \
-      -Dsonar.sources=. \
+      -Dsonar.projectName=${SONAR_FRONTEND_PROJECT_NAME} \
       -Dsonar.host.url=${SONAR_HOST_URL} \
+      -Dsonar.sources=. \
       -Dsonar.login=${SONAR_LOGIN}
   cache:
     key: "${CI_JOB_NAME}"
