@@ -62,7 +62,6 @@ upload:
   before_script:
     - until docker info; do sleep 1; done
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker login -u $DOCKER_GITLAB_USER -p $DOCKER_GITLAB_TOCKEN
   script:
     - docker pull $CI_REGISTRY_IMAGE/momo-backend:$CI_COMMIT_SHA
     - docker tag $CI_REGISTRY_IMAGE/momo-backend:$CI_COMMIT_SHA
@@ -84,8 +83,10 @@ deploy:
   script:
     - ssh ${DEV_USER}@${SHOP_URL}
       "export "VERSION=${VERSION}";
-      export "REGISTRY_ACCESS_TOKEN=${DOCKER_GITLAB_TOCKEN}";
-      export "REGISTRY_USER=${DOCKER_GITLAB_USER}";
+      export "CI_REGISTRY_IMAGE=${CI_REGISTRY_IMAGE}";
+      export "CI_REGISTRY_USER=${CI_REGISTRY_USER}";
+      export "CI_REGISTRY_PASSWORD=${CI_REGISTRY_PASSWORD}";
+      export "CI_REGISTRY=${CI_REGISTRY}";
       /bin/bash -s " < ./deploy.sh
   environment:
     name: staging
