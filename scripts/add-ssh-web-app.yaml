@@ -1,0 +1,10 @@
+users:
+  - default
+  - name: ansible
+    gecos: ansible
+    shell: /bin/bash
+    primary_group: ansible
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    lock_passwd: false
+    ssh_authorized_keys: "ubuntu:${file("~/.ssh/id_rsa.pub")}"
