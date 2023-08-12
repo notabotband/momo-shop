@@ -4,7 +4,6 @@ docker login gitlab.praktikum-services.ru:5050 -u $DOCKER_GITLAB_USER -p $DOCKER
 docker pull gitlab.praktikum-services.ru:5050/std-013-59/momo-store/momo-backend:latest
 docker stop momo-backend || true
 docker rm momo-backend || true
-
 set -e
 docker run -d --name momo-backend \
     --network=momo_network \
