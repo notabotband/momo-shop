@@ -11,6 +11,7 @@ include:
 stages:
   - build
   - test
+  - release
   - deploy
 
 build:
@@ -44,7 +45,7 @@ sonarqube-sast:
     - build
 
 upload:
-  stage: deploy
+  stage: release
   image: docker:20.10.12-dind-rootless
   before_script:
     - until docker info; do sleep 1; done
@@ -56,3 +57,24 @@ upload:
     - docker push $CI_REGISTRY_IMAGE/momo-frontend:latest
   needs:
     - build
+
+deploy:
+  stage: deploy
+  before_script:
+    - apk add openssh-client bash
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - ssh ${DEV_USER}@${SHOP_URL}
+      "export "VERSION=${VERSION}";
+      export "REGISTRY_ACCESS_TOKEN=${REGISTRY_ACCESS_TOKEN}";
+      export "REGISTRY_USER=${REGISTRY_USER}";
+      /bin/bash -s " < ./deploy.sh
+  environment:
+    name: staging
+    url: https://${SHOP_URL}
+  when: manual
