@@ -15,3 +15,13 @@ NODE_ENV=production VUE_APP_API_URL=http://localhost:8081 npm run serve
 go run ./cmd/api
 go test -v ./... 
 ```
+
+## Инфраструктура приложения
+
+Dockerfile'ы для сборки Docker-образов бэкенда и фронтенда
+Бэкенд: бинарный файл Go в Docker-образе
+Фронтенд: HTML-страница раздаётся с Nginx
+
+Для тестирования исподьзуется
+SonarQube
+https://sonarqube.praktikum-services.ru/projects/favorite
