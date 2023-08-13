@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 docker network create -d bridge momo_network || true
 docker login gitlab.praktikum-services.ru:5050 -u $REGISTRY_USER -p $REGISTRY_ACCESS_TOKEN
 docker pull gitlab.praktikum-services.ru:5050/std-013-59/momo-store/momo-frontend:latest
