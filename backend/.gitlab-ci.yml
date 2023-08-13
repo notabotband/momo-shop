@@ -86,7 +86,7 @@ deploy:
       "export "VERSION=${VERSION}";
       export "REGISTRY_ACCESS_TOKEN=${REGISTRY_ACCESS_TOKEN}";
       export "REGISTRY_USER=${REGISTRY_USER}";
-      /bin/bash -s" < ./d.sh
+      /bin/sh -s" < ./d.sh
   environment:
     name: staging
     url: https://${SHOP_URL}
