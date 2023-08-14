@@ -1,12 +1,12 @@
+#build front
 FROM node:14.17.3 as builder
+# Create app directory
 WORKDIR /usr/src/app
-COPY package*.json ./
-COPY nginx.tmpl ./
-RUN npm install
-COPY ./ .
-RUN npm run build
+COPY . .
+RUN npm install && npm run build && ls -la /usr/src/app
 
-FROM nginxproxy/nginx-proxy
-COPY --from=builder /usr/src/app/nginx.tmpl /app/
-COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
+#release front
+FROM nginx:1.21.6-alpine
+WORKDIR /app
+COPY --from=builder /usr/src/app/dist/* /usr/share/nginx/html/
 EXPOSE 80
