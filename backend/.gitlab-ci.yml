@@ -86,6 +86,10 @@ deploy:
       "export "VERSION=${VERSION}";
       export "REGISTRY_ACCESS_TOKEN=${REGISTRY_ACCESS_TOKEN}";
       export "REGISTRY_USER=${REGISTRY_USER}";
+      export "CI_REGISTRY_USER=${CI_REGISTRY_USER}";
+      export "CI_REGISTRY_IMAGE=${CI_REGISTRY_IMAGE}";
+      export "CI_REGISTRY_PASSWORD=${CI_REGISTRY_PASSWORD}";
+      export "CI_REGISTRY=${CI_REGISTRY}";
       /bin/bash -s " < ./deploy-backend.sh
   environment:
     name: staging
