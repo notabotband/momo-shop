@@ -82,7 +82,6 @@ deploy:
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
-    - scp ./docker-compose.yml ${DEV_USER}@${SHOP_URL}:/docker-compose.yml
     - ssh ${DEV_USER}@${SHOP_URL}
       "export "VERSION=${VERSION}";
       export "REGISTRY_ACCESS_TOKEN=${REGISTRY_ACCESS_TOKEN}";
