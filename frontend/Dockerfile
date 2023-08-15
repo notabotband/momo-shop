@@ -1,12 +1,19 @@
-#build front
-FROM node:14.17.3 as builder
-# Create app directory
-WORKDIR /usr/src/app
-COPY . .
-RUN npm install && NODE_ENV=production VUE_APP_API_URL=http://momo-backend:8081 npm run serve && ls -la /usr/src/app
+FROM node:16-alpine as builder
 
-#release front
-FROM nginx:1.21.6-alpine
-WORKDIR /app
-COPY --from=builder /usr/src/app/dist/* /usr/share/nginx/html/
-EXPOSE 8080
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+FROM nginx:stable-alpine
+ARG VERSION=${VERSION}
+LABEL name="momo-frontend" \
+      version=${VERSION}
+WORKDIR /usr/src/app
+ENV NODE_ENV=production
+COPY --from=builder /usr/src/app/dist ./static/momo-store
+RUN rm -rf /etc/nginx/conf.d/default.conf
+COPY app.conf /etc/nginx/conf.d/app.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

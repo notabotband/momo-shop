@@ -1,12 +1,21 @@
 #!/bin/bash
+set +e
+cat > .backend.env <<EOF
+
+VIRTUAL_HOST=momo-backend
+EOF
+
 docker network create -d bridge momo_network || true
-docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-docker pull $CI_REGISTRY_IMAGE/momo-backend:latest
-docker stop momo-backend || true
-docker rm momo-backend || true
+docker pull gitlab.praktikum-services.ru:5050/std-013-59/momo-store/momo-backend:latest
+
 set -e
-docker run -d --name momo-backend \
-    --network=momo_network \
-    --restart always \
-    -p 81 \
-    gitlab.praktikum-services.ru:5050/std-013-59/momo-store/momo-backend:latest
+
+if [ "$(docker inspect --format "{{.State.Health.Status}}" $(docker-compose ps -q backend-blue))" == "healthy" ]; then
+  docker-compose --env-file .backend.env up -d backend-green
+  until [ "$(docker inspect --format "{{.State.Health.Status}}" $(docker-compose ps -q backend-green))" == "healthy" ]; do sleep 5; done
+  docker-compose stop backend-blue
+else
+  docker-compose --env-file .backend.env up -d backend-blue
+  until [ "$(docker inspect --format "{{.State.Health.Status}}" $(docker-compose ps -q backend-blue))" == "healthy" ]; do sleep 5; done
+  docker-compose stop backend-green
+fi
