@@ -5,8 +5,9 @@ cat > .backend.env <<EOF
 VIRTUAL_HOST=momo-backend
 EOF
 
-docker network create -d bridge momo_network || true
-docker pull gitlab.praktikum-services.ru:5050/std-013-59/momo-store/momo-backend:latest
+sudo docker network create -d bridge momo_network || true
+sudo docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+sudo docker pull gitlab.praktikum-services.ru:5050/std-013-59/momo-store/momo-backend:latest
 
 set -e
 
