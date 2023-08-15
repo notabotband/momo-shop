@@ -60,6 +60,7 @@ upload:
 
 deploy:
   stage: deploy
+  image: alpine:3.15.0
   before_script:
     - apk add openssh-client bash
     - eval $(ssh-agent -s)
@@ -82,3 +83,4 @@ deploy:
     name: staging
     url: https://${SHOP_URL}
   when: manual
+
