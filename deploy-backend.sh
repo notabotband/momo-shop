@@ -1,6 +1,6 @@
 #!/bin/bash
 set +e
-cat > .backend.env <<EOF
+sudo cat > .backend.env <<EOF
 
 VIRTUAL_HOST=momo-backend
 EOF
@@ -11,12 +11,12 @@ sudo docker pull gitlab.praktikum-services.ru:5050/std-013-59/momo-store/momo-ba
 
 set -e
 
-if [ "$(docker inspect --format "{{.State.Health.Status}}" $(docker-compose ps -q backend-blue))" == "healthy" ]; then
-  docker-compose --env-file .backend.env up -d backend-green
-  until [ "$(docker inspect --format "{{.State.Health.Status}}" $(docker-compose ps -q backend-green))" == "healthy" ]; do sleep 5; done
-  docker-compose stop backend-blue
+if [ "$(sudo docker inspect --format "{{.State.Health.Status}}" $(sudo docker-compose ps -q backend-blue))" == "healthy" ]; then
+  sudo docker-compose --env-file .backend.env up -d backend-green
+  until [ "$(sudo docker inspect --format "{{.State.Health.Status}}" $(sudo docker-compose ps -q backend-green))" == "healthy" ]; do sleep 5; done
+  sudo docker-compose stop backend-blue
 else
-  docker-compose --env-file .backend.env up -d backend-blue
-  until [ "$(docker inspect --format "{{.State.Health.Status}}" $(docker-compose ps -q backend-blue))" == "healthy" ]; do sleep 5; done
-  docker-compose stop backend-green
+  sudo docker-compose --env-file .backend.env up -d backend-blue
+  until [ "$(sudo docker inspect --format "{{.State.Health.Status}}" $(sudo docker-compose ps -q backend-blue))" == "healthy" ]; do sleep 5; done
+  sudo docker-compose stop backend-green
 fi
