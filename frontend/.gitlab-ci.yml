@@ -78,8 +78,8 @@ deploy:
       export "CI_REGISTRY_IMAGE=${CI_REGISTRY_IMAGE}";
       export "CI_REGISTRY_PASSWORD=${CI_REGISTRY_PASSWORD}";
       export "CI_REGISTRY=${CI_REGISTRY}";
-      /bin/bash -s " < ./deploy-compose.sh
+      /bin/bash -s " < ./deploy-frontend.sh
   environment:
     name: staging
-    url: https://${SHOP_URL}
+    url: http://${SHOP_URL}
   when: manual

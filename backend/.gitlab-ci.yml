@@ -93,5 +93,5 @@ deploy:
       /bin/bash -s " < ./deploy-backend.sh
   environment:
     name: staging
-    url: https://${SHOP_URL}
+    url: http://${SHOP_URL}
   when: manual

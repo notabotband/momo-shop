@@ -19,13 +19,7 @@ export AWS_ACCESS_KEY_ID="<идентификатор_ключа>"
 export AWS_SECRET_ACCESS_KEY="<секретный_ключ>"
 ```
 
-### 2. Создайте в облаке хранилище с именем "momo-pictures"
-
-и загрузите туда картинки пельменей
-(в данном проекте это хранилище создается терраформом)
-
-<img width="900" alt="image" src="https://github.com/Zhihareff/momo-store/raw/main/image/s3-bucket.png">
-
+### 2. Картинки хранятся в S3 Яндекс.Облока, бакет "momobucket" создается terraform
 
 # Структура проекта 
 
@@ -34,6 +28,8 @@ export AWS_SECRET_ACCESS_KEY="<секретный_ключ>"
 ├── backend                       - приложение бэкенда на GO, Dockerfile, gitlab-ci.yml
 ├── frontend                      - приложение фронтэнда на VUE, Dockerfile, gitlab-ci.yml
 ├── terraform                     - terraform для развертывания BM
+├── deploy-frontend.sh            - docker-compose up -d frontend
+├── deploy-backend.sh             - ocker-compose up -d backend-green, backend-blue
 ├── .gitlab-ci.yml                - родительский пайплайн для сборки и релиза образов бэкенда и фронтенда в Container Registry
 ```
 
