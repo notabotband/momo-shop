@@ -95,4 +95,3 @@ deploy:
     name: staging
     url: http://${SHOP_URL}
   when: manual
-
