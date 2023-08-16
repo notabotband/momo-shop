@@ -7,4 +7,4 @@ sudo docker-compose pull
 sudo docker stop momo-frontend || true
 sudo docker rm momo-frontend || true
 set -e
-sudo docker-compose up -d momo-frontend
+sudo docker-compose up -d frontend
