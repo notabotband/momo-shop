@@ -83,3 +83,4 @@ deploy:
     name: staging
     url: https://${SHOP_URL}
   when: manual
+

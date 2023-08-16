@@ -13,7 +13,6 @@ LABEL name="momo-frontend" \
 WORKDIR /usr/src/app
 ENV NODE_ENV=production
 COPY --from=builder /usr/src/app/dist ./static/momo-store
-RUN rm -rf /etc/nginx/conf.d/default.conf
 COPY app.conf /etc/nginx/conf.d/app.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
