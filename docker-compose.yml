@@ -4,6 +4,7 @@ services:
   backend-blue:
     image: gitlab.praktikum-services.ru:5050/std-013-59/momo-store/momo-backend:latest
     container_name: momo-backend-blue
+    pull_policy: always
     hostname: backend
     env_file:
       - .backend.env
@@ -19,6 +20,7 @@ services:
   backend-green:
     image: gitlab.praktikum-services.ru:5050/std-013-59/momo-store/momo-backend:latest
     container_name: momo-backend-green
+    pull_policy: always
     hostname: backend
     env_file:
       - .backend.env
@@ -34,6 +36,7 @@ services:
   frontend:
     image: gitlab.praktikum-services.ru:5050/std-013-59/momo-store/momo-frontend:latest
     container_name: momo-frontend
+    pull_policy: always
     ports:
       - "80:80"
     volumes:
