@@ -40,6 +40,8 @@ services:
     ports:
       - "80:80"
     volumes:
+      - ./yourapp:/var/www/myvalue
+      - /etc/letsencrypt/:/etc/letsencrypt/
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./nginx.tmpl:/app/nginx.tmpl
     environment:
