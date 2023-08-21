@@ -39,15 +39,22 @@ services:
     pull_policy: always
     ports:
       - "80:80"
+      - "443:443"
     volumes:
-      - ./yourapp:/var/www/myvalue
-      - /etc/letsencrypt/:/etc/letsencrypt/
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./nginx.tmpl:/app/nginx.tmpl
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
     environment:
       - DEFAULT_HOST=momo-backend
     networks:
       - momo_network
+
+  certbot:
+    image: certbot/cerbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
 
 networks:
   momo_network:

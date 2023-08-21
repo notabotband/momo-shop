@@ -10,19 +10,11 @@ upstream {{ $host }} {
 }
 
 server {
-    listen 443 ssl http2;
+    listen 443 default_server ssl http2;
     listen [::]:443 ssl http2;
-
-    server_name *.myvalue.ru myvalue.ru;
-    set $base /var/www/myvalue;
-    root $base/public;
-
-    # SSL
-    ssl_certificate /etc/letsencrypt/live/myvalue.ru/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/myvalue.ru/privkey.pem;
-    ssl_trusted_certificate /etc/letsencrypt/live/myvalue.ru/chain.pem;
-
-    client_max_body_size 5M;
+    server_name momo.myvalue.ru;
+    ssl_certificate /etc/nginx/ssl/live/momo.myvalue.ru/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/live/momo.myvalue.ru/privkey.pem;
 
     location / {
         root   /usr/src/app/static/momo-store;
@@ -31,7 +23,7 @@ server {
     }
 
     location ~ (/products|auth|categories) {
-        proxy_pass    http://{{ $host }};
+        proxy_pass    https://{{ $host }};
     }
 }
 
@@ -39,11 +31,13 @@ server {
 server {
     listen 80;
     listen [::]:80;
-
-    server_name *.myvalue.ru myvalue.ru;
-
+    server_name momo.myvalue.ru www.momo.myvalue.ru;
+    server_tokens off;
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
     location / {
-            return 301 https://myvalue.ru$request_uri;
+        return 301 https://momo.myvalue.ru$request_uri;
     }
 }
 {{ end }}
