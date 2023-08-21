@@ -14,5 +14,5 @@ WORKDIR /usr/src/app
 ENV NODE_ENV=production
 COPY --from=builder /usr/src/app/dist ./static/momo-store
 COPY app.conf /etc/nginx/conf.d/app.conf
-EXPOSE 80
+EXPOSE 443
 CMD ["nginx", "-g", "daemon off;"]
