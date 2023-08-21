@@ -43,8 +43,6 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./nginx.tmpl:/app/nginx.tmpl
-      - ./certbot/www:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
     environment:
       - DEFAULT_HOST=momo-backend
     networks:
