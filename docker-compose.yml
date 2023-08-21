@@ -50,12 +50,6 @@ services:
     networks:
       - momo_network
 
-  certbot:
-    image: certbot/cerbot:latest
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
-
 networks:
   momo_network:
     driver: bridge
